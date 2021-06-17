@@ -10,6 +10,9 @@ export interface DashboardContentModel {
     x: number;
     component?: any;
     name: string;
+    maxItemRows?: number, 
+    maxItemCols?: number,
+    layerIndex?: number
 }
 
 export interface DashboardModel {

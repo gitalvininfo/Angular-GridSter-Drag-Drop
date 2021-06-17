@@ -5,36 +5,66 @@
       "username": "Page 1",
       "dashboard": [
         {
-          "cols": 14,
-          "rows": 17,
-          "x": 1,
-          "y": 17,
+          "cols": 4,
+          "rows": 3,
+          "x": 4,
+          "y": 0,
+          "maxItemRows": 3,
+          "maxItemCols": 4,
+          "layerIndex": 2,
           "name": "Radar Chart",
           "component": "Radar Chart"
         },
         {
-          "cols": 15,
-          "rows": 17,
-          "x": 1,
+          "cols": 4,
+          "rows": 3,
+          "x": 0,
           "y": 0,
-          "name": "Doughnut Chart",
-          "component": "Doughnut Chart"
+          "maxItemRows": 3,
+          "maxItemCols": 4,
+          "layerIndex": 2,
+          "name": "Radar Chart",
+          "component": "Radar Chart"
+        },
+        {
+          "cols": 4,
+          "rows": 3,
+          "x": 0,
+          "y": 3,
+          "maxItemRows": 3,
+          "maxItemCols": 4,
+          "layerIndex": 2,
+          "name": "Radar Chart",
+          "component": "Radar Chart"
+        },
+        {
+          "cols": 4,
+          "rows": 3,
+          "x": 4,
+          "y": 3,
+          "maxItemRows": 3,
+          "maxItemCols": 4,
+          "layerIndex": 2,
+          "name": "Radar Chart",
+          "component": "Radar Chart"
+        },
+        {
+          "cols": 4,
+          "rows": 3,
+          "x": 8,
+          "y": 0,
+          "maxItemRows": 3,
+          "maxItemCols": 4,
+          "layerIndex": 2,
+          "name": "Radar Chart",
+          "component": "Radar Chart"
         }
       ]
     },
     {
       "id": 2,
       "username": "Page 2",
-      "dashboard": [
-        {
-          "cols": 16,
-          "rows": 19,
-          "x": 0,
-          "y": 0,
-          "name": "Doughnut Chart",
-          "component": "Doughnut Chart"
-        }
-      ]
+      "dashboard": []
     }
   ],
   "widgets": [

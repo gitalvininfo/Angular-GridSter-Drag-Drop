@@ -12,7 +12,7 @@ export class MenuComponent implements OnInit {
 	constructor(private _ds: DashboardService) {};
 
 	// Components variables
-	protected toggle: boolean;
+	protected toggle: boolean = true;
 	protected modal: boolean;
 	protected widgetCollection: WidgetModel[];
 	protected dashboardCollection: DashboardModel[];

@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
 	protected options: GridsterConfig;
 	protected dashboardId: number;
 	protected dashboardCollection: DashboardModel;
-	protected dashboardArray: DashboardContentModel[];
+	protected dashboardArray: DashboardContentModel[] = [];
 	protected componentCollection = [
 		{ name: "Line Chart", componentInstance: LineChartComponent },
 		{ name: "Doughnut Chart", componentInstance: DoughnutChartComponent },
@@ -30,12 +30,12 @@ export class DashboardComponent implements OnInit {
 	ngOnInit() {
 		// Grid options
 		this.options = {
-			gridType: "fit",
+			gridType: "fixed",
 			enableEmptyCellDrop: true,
 			emptyCellDropCallback: this.onDrop,
-			pushItems: true,
-			swap: true,
-			pushDirections: { north: true, east: true, south: true, west: true },
+			pushItems: false,
+			swap: false,
+			pushDirections: { north: false, east: false, south: false, west: false },
 			resizable: { enabled: true },
 			itemChangeCallback: this.itemChange.bind(this),
 			draggable: {
@@ -46,9 +46,17 @@ export class DashboardComponent implements OnInit {
 				ignoreContentClass: "no-drag",
 			},
 			displayGrid: "always",
-			minCols: 30,
-			minRows: 30, 
-			allowMultiLayer: true
+			minCols: 1,
+			maxCols: 15,
+			minRows: 1,
+			maxRows: 15,
+			fixedColWidth: 105,
+      		fixedRowHeight: 105,
+			allowMultiLayer: true,
+			defaultLayerIndex: 1,
+			baseLayerIndex: 2,
+			maxLayerIndex: 2,
+			disableScrollHorizontal: true,
 		};
 		this.getData();
 	}
@@ -66,7 +74,7 @@ export class DashboardComponent implements OnInit {
 				this.parseJson(this.dashboardCollection);
 				// We copy array without reference
 				this.dashboardArray = this.dashboardCollection.dashboard.slice();
-
+				console.warn('get data')
 			});
 		});
 	}
@@ -106,37 +114,51 @@ export class DashboardComponent implements OnInit {
 		let tmp = JSON.stringify(this.dashboardCollection);
 		let parsed: DashboardModel = JSON.parse(tmp);
 		this.serialize(parsed.dashboard);
-		console.log(this.dashboardArray);
 		this._ds.updateDashboard(this.dashboardId, parsed).subscribe();
 	}
 
 	onDrop(ev) {
+
 		const componentType = ev.dataTransfer.getData("widgetIdentifier");
+
+		if(!this.dashboardArray) {
+			this.dashboardArray = [];
+		}
+
 		switch (componentType) {
 			case "radar_chart":
 				return this.dashboardArray.push({
-					cols: 5,
-					rows: 5,
+					cols: 4,
+					rows: 3,
 					x: 0,
 					y: 0,
+					maxItemRows: 3, 
+					maxItemCols: 4,
+					layerIndex: 2,
 					component: RadarChartComponent,
 					name: "Radar Chart"
 				});
 			case "line_chart":
 				return this.dashboardArray.push({
-					cols: 5,
-					rows: 5,
+					cols: 4,
+					rows: 3,
 					x: 0,
 					y: 0,
+					maxItemRows: 3, 
+					maxItemCols: 4,
+					layerIndex: 1,
 					component: LineChartComponent,
 					name: "Line Chart"
 				});
 			case "doughnut_chart":
 				return this.dashboardArray.push({
-					cols: 5,
-					rows: 5,
+					cols: 4,
+					rows: 3,
 					x: 0,
 					y: 0,
+					maxItemRows: 3, 
+					maxItemCols: 4,
+					layerIndex: 1,
 					component: DoughnutChartComponent,
 					name: "Doughnut Chart"
 				});
