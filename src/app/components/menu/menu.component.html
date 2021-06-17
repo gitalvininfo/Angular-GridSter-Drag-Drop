@@ -5,25 +5,24 @@
 			<clr-icon shape="bars" class="is-inverse"></clr-icon>
 		</a>
 	</div>
-	<div class="header-actions">
+	<!-- <div class="header-actions">
 		<clr-dropdown>
 			<button class="nav-icon" clrDropdownTrigger>
 				<clr-icon shape="cog"></clr-icon>
 				<clr-icon shape="caret down"></clr-icon>
 			</button>
 			<clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-				<!-- Display modal on click -->
 				<a (click)="modal = !modal" clrDropdownItem>Preferences</a>
 			</clr-dropdown-menu>
 		</clr-dropdown>
-	</div>
+	</div> -->
 </header>
 <div class="content-container">
 	<nav class="sidenav" *ngIf="toggle">
 		<section class="sidenav-content">
 			<section class="nav-group collapsible">
 				<input id="tabexample1" type="checkbox">
-				<label for="tabexample1">Bullshit component</label>
+				<label for="tabexample1">Pltrades Components</label>
 				<ul class="nav-list">
 					<li *ngFor="let widget of widgetCollection">
 						<!-- 
@@ -33,7 +32,7 @@
 						<a draggable="true" class="nav-link" (dragstart)="onDrag($event, widget.identifier)">
 							<clr-icon shape="drag-handle" style="margin-right: 10px;"></clr-icon>
 								{{ widget.name }}
-							<clr-icon shape="plugin" class="has-badge"></clr-icon>
+							<!-- <clr-icon shape="plugin" class="has-badge"></clr-icon> -->
 						</a>
 					</li>
 				</ul>

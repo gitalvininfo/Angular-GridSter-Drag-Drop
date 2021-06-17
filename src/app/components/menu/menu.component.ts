@@ -31,6 +31,7 @@ export class MenuComponent implements OnInit {
 	}
 
 	onDrag(event, identifier) {
+		console.warn(event)
 		event.dataTransfer.setData('widgetIdentifier', identifier);
 	}
 	// Method call when toggle button is clicked in navbar

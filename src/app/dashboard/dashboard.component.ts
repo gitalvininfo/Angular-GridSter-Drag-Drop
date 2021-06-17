@@ -46,8 +46,9 @@ export class DashboardComponent implements OnInit {
 				ignoreContentClass: "no-drag",
 			},
 			displayGrid: "always",
-			minCols: 10,
-			minRows: 10
+			minCols: 30,
+			minRows: 30, 
+			allowMultiLayer: true
 		};
 		this.getData();
 	}
