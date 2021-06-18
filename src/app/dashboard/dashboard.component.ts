@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
 	protected options: GridsterConfig;
 	protected dashboardId: number;
 	protected dashboardCollection: DashboardModel;
-	protected dashboardArray: DashboardContentModel[];
+	protected dashboardArray: DashboardContentModel[] = [];
 	protected componentCollection = [
 		{ name: "Line Chart", componentInstance: LineChartComponent },
 		{ name: "Doughnut Chart", componentInstance: DoughnutChartComponent },
@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
 	];
 
 	ngOnInit() {
-		this.options
+		// this.options
 		// Grid options
 		this.options = {
 			gridType: "fixed",
@@ -37,23 +37,28 @@ export class DashboardComponent implements OnInit {
 			emptyCellDropCallback: this.onDrop,
 			pushItems: false,
 			swap: false,
-			pushDirections: { north: false, east: false, south: true, west: false },
+			pushDirections: { north: false, east: false, south: false, west: false },
 			resizable: { enabled: true },
 			itemChangeCallback: this.itemChange.bind(this),
 			draggable: {
 				enabled: true,
-				ignoreContent: true,
+				// ignoreContent: true,
 				dropOverItems: true,
-				dragHandleClass: "drag-handler",
-				ignoreContentClass: "no-drag",
+				// dragHandleClass: "drag-handler",
+				// ignoreContentClass: "no-drag",
 			},
-			displayGrid: "always",
+			displayGrid: "onDrag&Resize",
 			minCols: 1,
-			maxCols: 100,
+			maxCols: 15,
 			minRows: 1,
-			maxRows: 100,
+			maxRows: 15,
 			fixedColWidth: 105,
       		fixedRowHeight: 105,
+			allowMultiLayer: true,
+			defaultLayerIndex: 1,
+			baseLayerIndex: 2,
+			maxLayerIndex: 2,
+			disableScrollHorizontal: true,
 		};
 		this.getData();
 	}
@@ -71,7 +76,7 @@ export class DashboardComponent implements OnInit {
 				this.parseJson(this.dashboardCollection);
 				// We copy array without reference
 				this.dashboardArray = this.dashboardCollection.dashboard.slice();
-
+				console.warn('get data', this.dashboardArray)
 			});
 		});
 	}
@@ -115,7 +120,13 @@ export class DashboardComponent implements OnInit {
 	}
 
 	onDrop(ev) {
+
 		const componentType = ev.dataTransfer.getData("widgetIdentifier");
+
+		if(!this.dashboardArray) {
+			this.dashboardArray = [];
+		}
+
 		switch (componentType) {
 			case "radar_chart":
 				return this.dashboardArray.push({
@@ -123,6 +134,9 @@ export class DashboardComponent implements OnInit {
 					rows: 3,
 					x: 0,
 					y: 0,
+					// maxItemRows: 3, 
+					// maxItemCols: 4,
+					layerIndex: 2,
 					component: RadarChartComponent,
 					name: "Radar Chart"
 				});
@@ -132,6 +146,10 @@ export class DashboardComponent implements OnInit {
 					rows: 3,
 					x: 0,
 					y: 0,
+					// maxItemRows: 3, 
+					// maxItemCols: 4,
+					// layerIndex: 1,
+					layerIndex: 3,
 					component: LineChartComponent,
 					name: "Line Chart"
 				});
@@ -141,6 +159,10 @@ export class DashboardComponent implements OnInit {
 					rows: 3,
 					x: 0,
 					y: 0,
+					// maxItemRows: 3, 
+					// maxItemCols: 4,
+					// layerIndex: 1,
+					layerIndex: 4,
 					component: DoughnutChartComponent,
 					name: "Doughnut Chart"
 				});

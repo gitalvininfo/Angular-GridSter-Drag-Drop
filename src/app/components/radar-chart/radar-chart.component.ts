@@ -5,6 +5,7 @@ import { Component } from "@angular/core";
 	templateUrl: "./radar-chart.component.html"
 })
 export class RadarChartComponent {
+	loading = true;
 	// Radar
 	public radarChartLabels: string[] = [
 		"Eating",
@@ -29,5 +30,11 @@ export class RadarChartComponent {
 
 	public chartHovered(e: any): void {
 		console.log(e);
+	}
+
+	ngOnInit(): void {
+		setTimeout(() => {
+			this.loading = false
+		}, 3000)
 	}
 }
