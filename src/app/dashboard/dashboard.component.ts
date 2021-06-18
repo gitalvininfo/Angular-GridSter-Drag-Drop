@@ -28,14 +28,16 @@ export class DashboardComponent implements OnInit {
 	];
 
 	ngOnInit() {
+		this.options
 		// Grid options
 		this.options = {
-			gridType: "fit",
+			gridType: "fixed",
 			enableEmptyCellDrop: true,
+			enableOccupiedCellDrop: true,
 			emptyCellDropCallback: this.onDrop,
-			pushItems: true,
-			swap: true,
-			pushDirections: { north: true, east: true, south: true, west: true },
+			pushItems: false,
+			swap: false,
+			pushDirections: { north: false, east: false, south: true, west: false },
 			resizable: { enabled: true },
 			itemChangeCallback: this.itemChange.bind(this),
 			draggable: {
@@ -46,9 +48,12 @@ export class DashboardComponent implements OnInit {
 				ignoreContentClass: "no-drag",
 			},
 			displayGrid: "always",
-			minCols: 30,
-			minRows: 30, 
-			allowMultiLayer: true
+			minCols: 1,
+			maxCols: 100,
+			minRows: 1,
+			maxRows: 100,
+			fixedColWidth: 105,
+      		fixedRowHeight: 105,
 		};
 		this.getData();
 	}
@@ -106,7 +111,6 @@ export class DashboardComponent implements OnInit {
 		let tmp = JSON.stringify(this.dashboardCollection);
 		let parsed: DashboardModel = JSON.parse(tmp);
 		this.serialize(parsed.dashboard);
-		console.log(this.dashboardArray);
 		this._ds.updateDashboard(this.dashboardId, parsed).subscribe();
 	}
 
@@ -115,8 +119,8 @@ export class DashboardComponent implements OnInit {
 		switch (componentType) {
 			case "radar_chart":
 				return this.dashboardArray.push({
-					cols: 5,
-					rows: 5,
+					cols: 4,
+					rows: 3,
 					x: 0,
 					y: 0,
 					component: RadarChartComponent,
@@ -124,8 +128,8 @@ export class DashboardComponent implements OnInit {
 				});
 			case "line_chart":
 				return this.dashboardArray.push({
-					cols: 5,
-					rows: 5,
+					cols: 4,
+					rows: 3,
 					x: 0,
 					y: 0,
 					component: LineChartComponent,
@@ -133,8 +137,8 @@ export class DashboardComponent implements OnInit {
 				});
 			case "doughnut_chart":
 				return this.dashboardArray.push({
-					cols: 5,
-					rows: 5,
+					cols: 4,
+					rows: 3,
 					x: 0,
 					y: 0,
 					component: DoughnutChartComponent,
@@ -153,5 +157,9 @@ export class DashboardComponent implements OnInit {
 			1
 		);
 		this.itemChange();
+	}
+
+	display($event) {
+		console.warn($event)
 	}
 }
