@@ -15,7 +15,7 @@ import { DoughnutChartComponent } from "../components/doughnut-chart/doughnut-ch
 	templateUrl: "./dashboard.component.html"
 })
 export class DashboardComponent implements OnInit {
-	constructor(private _route: ActivatedRoute, private _ds: DashboardService) {}
+	constructor(private _route: ActivatedRoute, private _ds: DashboardService) { }
 
 	protected options: GridsterConfig;
 	protected dashboardId: number;
@@ -28,8 +28,6 @@ export class DashboardComponent implements OnInit {
 	];
 
 	ngOnInit() {
-		// this.options
-		// Grid options
 		this.options = {
 			gridType: "fixed",
 			enableEmptyCellDrop: true,
@@ -42,8 +40,8 @@ export class DashboardComponent implements OnInit {
 			itemChangeCallback: this.itemChange.bind(this),
 			draggable: {
 				enabled: true,
-				// ignoreContent: true,
 				dropOverItems: true,
+				// ignoreContent: true,
 				// dragHandleClass: "drag-handler",
 				// ignoreContentClass: "no-drag",
 			},
@@ -53,16 +51,16 @@ export class DashboardComponent implements OnInit {
 			minRows: 1,
 			maxRows: 15,
 			fixedColWidth: 105,
-      		fixedRowHeight: 105,
+			fixedRowHeight: 105,
 			allowMultiLayer: true,
 			defaultLayerIndex: 1,
-			baseLayerIndex: 2,
-			maxLayerIndex: 2,
+			// baseLayerIndex: 2,
+			maxLayerIndex: 100,
 			disableScrollHorizontal: true,
 		};
 		this.getData();
 	}
-	
+
 	getData() {
 		// We get the id in get current router dashboard/:id
 		this._route.params.subscribe(params => {
@@ -75,7 +73,9 @@ export class DashboardComponent implements OnInit {
 				// We parse serialized Json to generate components on the fly
 				this.parseJson(this.dashboardCollection);
 				// We copy array without reference
-				this.dashboardArray = this.dashboardCollection.dashboard.slice();
+
+				const dashBoardCards = this.dashboardCollection.dashboard.slice();
+				this.dashboardArray = (dashBoardCards) ? dashBoardCards : [];
 				console.warn('get data', this.dashboardArray)
 			});
 		});
@@ -110,25 +110,28 @@ export class DashboardComponent implements OnInit {
 			});
 		});
 	}
-	
+
 	itemChange() {
 		this.dashboardCollection.dashboard = this.dashboardArray;
 		let tmp = JSON.stringify(this.dashboardCollection);
 		let parsed: DashboardModel = JSON.parse(tmp);
 		this.serialize(parsed.dashboard);
+		console.warn(parsed);
 		this._ds.updateDashboard(this.dashboardId, parsed).subscribe();
 	}
 
-	onDrop(ev) {
-
+	onDrop(ev: DragEvent) {
+		ev.stopImmediatePropagation();
+		// connected to menu, widgetIdentifier is the name of the card...
 		const componentType = ev.dataTransfer.getData("widgetIdentifier");
-
-		if(!this.dashboardArray) {
-			this.dashboardArray = [];
-		}
+		const latestLayerIndex = this.getLatestLayerIndex() + 1
 
 		switch (componentType) {
 			case "radar_chart":
+				if (this.cardAlreadyExist("Radar Chart")) {
+					alert('Card Already Exist.')
+					return;
+				}
 				return this.dashboardArray.push({
 					cols: 4,
 					rows: 3,
@@ -136,11 +139,16 @@ export class DashboardComponent implements OnInit {
 					y: 0,
 					// maxItemRows: 3, 
 					// maxItemCols: 4,
-					layerIndex: 2,
+					layerIndex: latestLayerIndex,
 					component: RadarChartComponent,
 					name: "Radar Chart"
 				});
+
 			case "line_chart":
+				if (this.cardAlreadyExist("Line Chart")) {
+					alert('Card Already Exist.')
+					return;
+				}
 				return this.dashboardArray.push({
 					cols: 4,
 					rows: 3,
@@ -149,11 +157,16 @@ export class DashboardComponent implements OnInit {
 					// maxItemRows: 3, 
 					// maxItemCols: 4,
 					// layerIndex: 1,
-					layerIndex: 3,
+					layerIndex: latestLayerIndex,
 					component: LineChartComponent,
 					name: "Line Chart"
 				});
+
 			case "doughnut_chart":
+				if (this.cardAlreadyExist("Doughnut Chart")) {
+					alert('Card Already Exist.')
+					return;
+				}
 				return this.dashboardArray.push({
 					cols: 4,
 					rows: 3,
@@ -162,7 +175,7 @@ export class DashboardComponent implements OnInit {
 					// maxItemRows: 3, 
 					// maxItemCols: 4,
 					// layerIndex: 1,
-					layerIndex: 4,
+					layerIndex: latestLayerIndex,
 					component: DoughnutChartComponent,
 					name: "Doughnut Chart"
 				});
@@ -183,5 +196,18 @@ export class DashboardComponent implements OnInit {
 
 	display($event) {
 		console.warn($event)
+	}
+
+	cardAlreadyExist(cardName: string): boolean {
+		return this.getDashboardCards.some(a => a.name.includes(cardName))
+	}
+
+	getLatestLayerIndex(): number {
+		const layerIndices = this.getDashboardCards.map(a => a.layerIndex);
+		return (layerIndices.length) ? Math.max(...layerIndices) : 0;
+	}
+
+	get getDashboardCards() {
+		return this.dashboardArray
 	}
 }

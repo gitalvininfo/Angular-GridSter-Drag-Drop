@@ -21,4 +21,9 @@ export class DoughnutChartComponent {
 	public chartHovered(e: any): void {
 		console.log(e);
 	}
+
+
+	alert(): void {
+		alert('sample')
+	}
 }
