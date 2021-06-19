@@ -16,17 +16,17 @@
         {
           "cols": 4,
           "rows": 3,
-          "x": 1,
-          "y": 2,
+          "x": 4,
+          "y": 0,
           "layerIndex": 2,
           "name": "Doughnut Chart",
           "component": "Doughnut Chart"
         },
         {
-          "cols": 4,
-          "rows": 3,
-          "x": 2,
-          "y": 0,
+          "cols": 2,
+          "rows": 2,
+          "x": 0,
+          "y": 6,
           "layerIndex": 3,
           "name": "Line Chart",
           "component": "Line Chart"
@@ -36,26 +36,7 @@
     {
       "id": 2,
       "username": "Page 2",
-      "dashboard": [
-        {
-          "cols": 4,
-          "rows": 3,
-          "x": 4,
-          "y": 0,
-          "layerIndex": 3,
-          "name": "Line Chart",
-          "component": "Line Chart"
-        },
-        {
-          "cols": 4,
-          "rows": 3,
-          "x": 0,
-          "y": 0,
-          "layerIndex": 2,
-          "name": "Radar Chart",
-          "component": "Radar Chart"
-        }
-      ]
+      "dashboard": []
     }
   ],
   "widgets": [

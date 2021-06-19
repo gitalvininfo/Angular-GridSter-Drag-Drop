@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit {
 			enableEmptyCellDrop: true,
 			enableOccupiedCellDrop: true,
 			emptyCellDropCallback: this.onDrop,
+			itemResizeCallback: this.itemResize.bind(this),
 			pushItems: false,
 			swap: false,
 			pushDirections: { north: false, east: false, south: false, west: false },
@@ -57,6 +58,9 @@ export class DashboardComponent implements OnInit {
 			// baseLayerIndex: 2,
 			maxLayerIndex: 100,
 			disableScrollHorizontal: true,
+			keepFixedHeightInMobile: true,
+			keepFixedWidthInMobile: false,
+			mobileBreakpoint: 140,
 		};
 		this.getData();
 	}
@@ -118,6 +122,10 @@ export class DashboardComponent implements OnInit {
 		this.serialize(parsed.dashboard);
 		console.warn(parsed);
 		this._ds.updateDashboard(this.dashboardId, parsed).subscribe();
+	}
+
+	itemResize() {
+		console.warn('wtf');
 	}
 
 	onDrop(ev: DragEvent) {
